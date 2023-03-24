@@ -14,9 +14,6 @@ public class Rule<TEntity> : IRule<TEntity>
         _specification = spec;
         ErrorMessage = errorMessage;
     }
-
-    public bool Validate(TEntity entity) => _specification.IsSatisfiedBy(entity);
-
     public async Task<bool> ValidateAsync(TEntity entity) =>
         await _specification.IsSatisfiedByAsync(entity);
 }

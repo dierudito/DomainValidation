@@ -8,21 +8,11 @@ public class Validator<TEntity> : IValidator<TEntity> where TEntity : class
 
     public Validator() => _rules = new Dictionary<string, IRule<TEntity>>();
 
-    public ValidationResult Validate(TEntity entity)
-    {
-        var validation = new ValidationResult();
-        foreach (var rule in _rules)
-            if (!rule.Value.Validate(entity))
-                validation.Add(new ValidationError(rule.Key, rule.Value.ErrorMessage));
-
-        return validation;
-    }
-
     public async Task<ValidationResult> ValidateAsync(TEntity entity)
     {
         var validation = new ValidationResult();
         foreach (var rule in _rules)
-            if (!rule.Value.Validate(entity))
+            if (!await rule.Value.ValidateAsync(entity))
                 validation.Add(new ValidationError(rule.Key, rule.Value.ErrorMessage));
 
         return validation;
